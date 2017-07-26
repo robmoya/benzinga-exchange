@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
+import SymbolForm from './SymbolForm';
 
 class Nav extends Component {
     render(){
         return(
             <div>
                 <p>Simple Stock Exchange</p>
-                <input type="text" placeholder="Enter Symbol"/>
-                <button>Lookup</button>
+                <SymbolForm/>
             </div>
         )
     }
