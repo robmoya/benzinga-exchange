@@ -2,9 +2,10 @@ import React, {Component} from 'react';
 
 class Stock extends Component {
     render(){
+        let {symbol,askPrice,bidPrice} = this.props;
         return(
             <div>
-                <h2>Apple Computer (AAPL)</h2>
+                <h2>Apple Computer {symbol}</h2>
                 <table>
                     <tbody>
                         <tr>
@@ -12,8 +13,8 @@ class Stock extends Component {
                             <th>Ask</th>
                         </tr>
                         <tr>
-                            <td>500.00</td>
-                            <td>505.00</td>
+                            <td>{bidPrice}</td>
+                            <td>{askPrice}</td>
                         </tr>
                     </tbody>
                 </table>

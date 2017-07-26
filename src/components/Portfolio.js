@@ -2,10 +2,11 @@ import React, {Component} from 'react';
 
 class Portfolio extends Component {
     render(){
+        let {cashAvail} = this.props;
         return(
             <div>
                 <h2>Current Portfolio</h2>
-                <h3>Cash: $<strong>100,000.00</strong></h3>
+                <h3>Cash: $<strong>{cashAvail}</strong></h3>
                 <table>
                     <tbody>
                         <tr>
