@@ -8,7 +8,7 @@ class SymbolForm extends Component {
         let symbol = this.refs.symbol.value;
 
         if (symbol.length > 0) {
-            this.refs.symbol.value = ' ';
+            this.refs.symbol.value = '';
             this.props.onSearch(symbol);
         }
     }
