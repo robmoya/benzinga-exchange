@@ -1,28 +1,16 @@
 import React, {Component} from 'react';
+import TradeList from './TradeList';
+
 
 class Portfolio extends Component {
     render(){
-        let {cashAvail} = this.props;
+        let {cash,trades} = this.props;
+
         return(
             <div>
                 <h2>Current Portfolio</h2>
-                <h3>Cash: $<strong>{cashAvail}</strong></h3>
-                <table>
-                    <tbody>
-                        <tr>
-                            <th>Company</th>
-                            <th>Quantity</th>
-                            <th>Price Paid</th>
-                            <th></th>
-                        </tr>
-                        <tr>
-                            <td>Ford Motor</td>
-                            <td>20</td>
-                            <td>14.99</td>
-                            <td><button>View Stock</button></td>
-                        </tr>
-                    </tbody>
-                </table>
+                <h3>Cash: $<strong>{cash}</strong></h3>
+                <TradeList trades={trades}/>
             </div>
         )
     }
