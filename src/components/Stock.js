@@ -14,7 +14,7 @@ class Stock extends Component {
             this.refs.quantity.value = '';
             this.props.onAddTrade(tradeQ,tradeT);
         } else {
-            alert("Please select a Quantity to sell or buy first")
+            alert("Please select a QUANTITY to sell or buy first")
             this.refs.quantity.focus();
         }
     }
@@ -36,7 +36,7 @@ class Stock extends Component {
                     </tbody>
                 </table>
                 <form onSubmit={this.handleSubmit.bind(this)}>
-                    <input type="text" placeholder="Enter Quantity" ref="quantity"/>
+                    <input type="number" placeholder="Enter Quantity" ref="quantity"/>
                     <button name="buy" onClick={this.getTradeType}>Buy</button>
                     <button name="sell" onClick={this.getTradeType}>Sell</button>
                 </form>
