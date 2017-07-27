@@ -15,20 +15,17 @@ let trades = JSON.parse(localStorage.getItem('tradesList')) || [
     {id: uuid(), name:'General Electric',q:10,ppaid:20.00, symbol:'GE'},
     {id: uuid(), name:'Microsoft',q:10,ppaid:20.00, symbol:'MSFT'}
 ];
-let totalCash = JSON.parse(localStorage.getItem('totalCash')) || 100000;
-
-console.log(trades);
+let Cash = JSON.parse(localStorage.getItem('totalCash')) || 100000;
 
 
 const Main = createReactClass({
     getInitialState(){
-
         return {
             name: 'Stock Name',
             symbol: '',
             bidPrice: '',
             askPrice: '',
-            totalCash: totalCash,
+            totalCash: Cash,
             trades: trades
         }
     },
@@ -43,13 +40,28 @@ const Main = createReactClass({
         })
     },
     handleAddTrade(quantity,tradeType){
-        let totalCash;
+        // Buy or Sell modifies your total Cash
+        let calcCash;
+        let totalCash = Number(this.state.totalCash);
+        let askPrice = this.state.askPrice;
+        let bidPrice = this.state.bidPrice;
+        console.log(`TotalCash: ${totalCash}, AskPrice: ${askPrice}, BidPrice: ${bidPrice}`);
         if (tradeType === 'buy') {
-            totalCash = this.state.totalCash - (this.state.askPrice * quantity);
+            calcCash = totalCash - (askPrice * quantity);
+            console.log(`Buy amount: -${askPrice * quantity}`);
         } else if (tradeType === 'sell'){
-            totalCash = this.state.totalCash + (this.state.bidPrice * quantity);
+            calcCash = totalCash + (bidPrice * quantity);
+            console.log(`Sell amount: +${bidPrice * quantity}`);
         }
 
+        // Check if wallet is empty or negative and return
+        if (calcCash < 0) {
+            alert("You don't have enough money");
+            console.log(calcCash);
+            return;
+        }
+
+        // Add New Trade Object into Trades Array
         let newTrade = {
             id: uuid(),
             name: this.state.name,
@@ -59,9 +71,10 @@ const Main = createReactClass({
         }
         let trades = [...this.state.trades, newTrade];
 
+        // If a symbol and a quantity were selected, add trade to State and localstorage
         if (this.state.symbol.length > 0 && quantity.length > 0){
             this.setState({
-                totalCash: totalCash,
+                totalCash: calcCash,
                 trades: trades
             });
             localStorage.setItem('tradesList', JSON.stringify(trades));
@@ -69,7 +82,6 @@ const Main = createReactClass({
         }else{
             alert("Please select a Stock First")
         }
-
     },
     render() {
         let {name,symbol,bidPrice,askPrice,totalCash,trades} = this.state;
