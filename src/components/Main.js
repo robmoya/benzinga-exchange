@@ -13,6 +13,15 @@ import uuid from 'uuid';
 
 const Main = createReactClass({
     getInitialState(){
+
+        let storage = JSON.parse(localStorage.getItem('storage'));
+        if (storage.totalCash) {
+            console.log(storage.totalCash);
+        }else {
+            return;
+        }
+        console.log(storage);
+
         return {
             name: 'Stock Name',
             symbol: '',
@@ -26,6 +35,7 @@ const Main = createReactClass({
             ]
         }
     },
+
     handleSearch(search){
         let searchUppercase = search.toUpperCase();
         benzingaStockApi.getStock(searchUppercase).then((stock) => {
@@ -34,6 +44,10 @@ const Main = createReactClass({
             console.log("Api call error");
             alert(error.message);
         })
+    },
+    handleLocalStorage(state){
+        let storage = state;
+        localStorage.setItem('storage', JSON.stringify(storage));
     },
     handleAddTrade(quantity,tradeType){
         let cashTraded;
@@ -57,6 +71,7 @@ const Main = createReactClass({
                     }
                 ]
             })
+            this.handleLocalStorage(this.state);
         }else{
             alert("Please select a Stock First")
         }
