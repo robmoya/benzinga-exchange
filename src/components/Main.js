@@ -10,22 +10,26 @@ import uuid from 'uuid';
 
 // This is where the state goes
 
+let trades = JSON.parse(localStorage.getItem('tradesList')) || [
+    {id: uuid(), name:'Ford Motor',q:20,ppaid:14.99, symbol:'F'},
+    {id: uuid(), name:'General Electric',q:10,ppaid:20.00, symbol:'GE'},
+    {id: uuid(), name:'Microsoft',q:10,ppaid:20.00, symbol:'MSFT'}
+];
+let totalCash = JSON.parse(localStorage.getItem('totalCash')) || 100000;
+
+console.log(trades);
+
 
 const Main = createReactClass({
     getInitialState(){
-
 
         return {
             name: 'Stock Name',
             symbol: '',
             bidPrice: '',
             askPrice: '',
-            totalCash: 100000,
-            trades: [
-                {id: uuid(), name:'Ford Motor',q:20,ppaid:14.99, symbol:'F'},
-                {id: uuid(), name:'General Electric',q:10,ppaid:20.00, symbol:'GE'},
-                {id: uuid(), name:'Microsoft',q:10,ppaid:20.00, symbol:'MSFT'}
-            ]
+            totalCash: totalCash,
+            trades: trades
         }
     },
 
@@ -39,28 +43,29 @@ const Main = createReactClass({
         })
     },
     handleAddTrade(quantity,tradeType){
-        let cashTraded;
+        let totalCash;
         if (tradeType === 'buy') {
-            cashTraded = this.state.totalCash - (this.state.askPrice * quantity);
+            totalCash = this.state.totalCash - (this.state.askPrice * quantity);
         } else if (tradeType === 'sell'){
-            cashTraded = this.state.totalCash + (this.state.bidPrice * quantity);
+            totalCash = this.state.totalCash + (this.state.bidPrice * quantity);
         }
+
+        let newTrade = {
+            id: uuid(),
+            name: this.state.name,
+            q: quantity,
+            ppaid: this.state.askPrice,
+            symbol: this.state.symbol
+        }
+        let trades = [...this.state.trades, newTrade];
 
         if (this.state.symbol.length > 0 && quantity.length > 0){
             this.setState({
-                totalCash: cashTraded,
-                trades: [
-                    ...this.state.trades,
-                    {
-                        id: uuid(),
-                        name: this.state.name,
-                        q: quantity,
-                        ppaid: this.state.askPrice,
-                        symbol: this.state.symbol
-                    }
-                ]
-            })
-            this.handleLocalStorage(this.state);
+                totalCash: totalCash,
+                trades: trades
+            });
+            localStorage.setItem('tradesList', JSON.stringify(trades));
+            localStorage.setItem('totalCash', JSON.stringify(totalCash));
         }else{
             alert("Please select a Stock First")
         }
