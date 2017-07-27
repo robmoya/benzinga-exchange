@@ -2,12 +2,15 @@ import React, {Component} from 'react';
 import Trade from './Trade';
 
 class TradeList extends Component {
+    handleSearch(search){
+        this.props.onSearch(search)
+    }
     render(){
         let {trades} = this.props;
         let renderTrades = () => {
             return trades.map((trade) => {
                 return (
-                    <Trade key={trade.name+trade.q} {...trade}/>
+                    <Trade key={trade.id} {...trade} onSearch={this.handleSearch.bind(this)}/>
                 )
             })
         }

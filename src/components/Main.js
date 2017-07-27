@@ -5,6 +5,8 @@ import Nav from './Nav';
 import Stock from './Stock';
 import Portfolio from './Portfolio';
 import benzingaStockApi from '../api/benzingaStockApi';
+import uuid from 'uuid';
+
 
 // This is where the state goes
 
@@ -16,11 +18,11 @@ const Main = createReactClass({
             symbol: '',
             bidPrice: '',
             askPrice: '',
-            cash: 100000,
+            totalCash: 100000,
             trades: [
-                {name:'Ford Motor',q:20,ppaid:14.99},
-                {name:'General Electric',q:10,ppaid:20.00},
-                {name:'Microsoft',q:10,ppaid:20.00}
+                {id: uuid(), name:'Ford Motor',q:20,ppaid:14.99, symbol:'F'},
+                {id: uuid(), name:'General Electric',q:10,ppaid:20.00, symbol:'GE'},
+                {id: uuid(), name:'Microsoft',q:10,ppaid:20.00, symbol:'MSFT'}
             ]
         }
     },
@@ -36,20 +38,22 @@ const Main = createReactClass({
     handleAddTrade(quantity,tradeType){
         let cashTraded;
         if (tradeType === 'buy') {
-            console.log('fue buy');
+            cashTraded = this.state.totalCash - (this.state.askPrice * quantity);
         } else if (tradeType === 'sell'){
-            console.log('fue sell');
+            cashTraded = this.state.totalCash + (this.state.bidPrice * quantity);
         }
 
         if (this.state.symbol.length > 0 && quantity.length > 0){
             this.setState({
-                cash: this.state.cash - (this.state.askPrice * quantity),
+                totalCash: cashTraded,
                 trades: [
                     ...this.state.trades,
                     {
+                        id: uuid(),
                         name: this.state.name,
                         q: quantity,
-                        ppaid: this.state.askPrice
+                        ppaid: this.state.askPrice,
+                        symbol: this.state.symbol
                     }
                 ]
             })
@@ -59,12 +63,12 @@ const Main = createReactClass({
 
     },
     render() {
-        let {name,symbol,bidPrice,askPrice,cash,trades} = this.state;
+        let {name,symbol,bidPrice,askPrice,totalCash,trades} = this.state;
         return (
             <div className="app">
                 <Nav onSearch={this.handleSearch}/>
                 <Stock symbol={symbol} bidPrice={bidPrice} askPrice={askPrice} name={name} onAddTrade={this.handleAddTrade}/>
-                <Portfolio cash={cash} trades={trades}/>
+                <Portfolio totalCash={totalCash} trades={trades} onSearch={this.handleSearch}/>
             </div>
 
         )
