@@ -14,13 +14,6 @@ import uuid from 'uuid';
 const Main = createReactClass({
     getInitialState(){
 
-        let storage = JSON.parse(localStorage.getItem('storage'));
-        if (storage.totalCash) {
-            console.log(storage.totalCash);
-        }else {
-            return;
-        }
-        console.log(storage);
 
         return {
             name: 'Stock Name',
@@ -44,10 +37,6 @@ const Main = createReactClass({
             console.log("Api call error");
             alert(error.message);
         })
-    },
-    handleLocalStorage(state){
-        let storage = state;
-        localStorage.setItem('storage', JSON.stringify(storage));
     },
     handleAddTrade(quantity,tradeType){
         let cashTraded;
