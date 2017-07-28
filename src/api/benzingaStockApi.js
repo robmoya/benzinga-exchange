@@ -8,15 +8,7 @@ let Api = {
         let encodedStock = encodeURIComponent(stock);
         let requestUrl = `${BENZINGA_STOCK_URL}rest/richquoteDelayed?symbols=${encodedStock}`;
 
-        return axios.request({
-            url:requestUrl,
-            method:'get',
-            headers: {
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept'
-            }
-        }).then((data) => {
+        return axios.get(requestUrl).then((data) => {
             return data.data[stock]
         }).catch((error) => {
             console.log("Api call error");
