@@ -1,5 +1,6 @@
 import React from 'react';
 import createReactClass from 'create-react-class';
+import {Grid,Row, Col} from 'react-bootstrap';
 
 import Nav from './Nav';
 import Stock from './Stock';
@@ -20,8 +21,9 @@ let Cash = JSON.parse(localStorage.getItem('totalCash')) || 100000;
 
 const Main = createReactClass({
     getInitialState(){
+        console.log('Trades',trades);
         return {
-            name: 'Stock Name',
+            name: '',
             symbol: '',
             bidPrice: '',
             askPrice: '',
@@ -33,10 +35,9 @@ const Main = createReactClass({
     handleSearch(search){
         let searchUppercase = search.toUpperCase();
         benzingaStockApi.getStock(searchUppercase).then((stock) => {
-            this.setState(stock)
+            this.setState(stock);
         }).catch((error) => {
             console.log("Api call error");
-            alert(error.message);
         })
     },
     handleAddTrade(quantity,tradeType){
@@ -69,7 +70,7 @@ const Main = createReactClass({
             ppaid: this.state.askPrice,
             symbol: this.state.symbol
         }
-        let trades = [...this.state.trades, newTrade];
+        let trades = [newTrade, ...this.state.trades];
 
         // If a symbol and a quantity were selected, add trade to State and localstorage
         if (this.state.symbol.length > 0 && quantity.length > 0){
@@ -86,10 +87,16 @@ const Main = createReactClass({
     render() {
         let {name,symbol,bidPrice,askPrice,totalCash,trades} = this.state;
         return (
-            <div className="app">
-                <Nav onSearch={this.handleSearch}/>
-                <Stock symbol={symbol} bidPrice={bidPrice} askPrice={askPrice} name={name} onAddTrade={this.handleAddTrade}/>
-                <Portfolio totalCash={totalCash} trades={trades} onSearch={this.handleSearch}/>
+            <div>
+                <Nav />
+                <Grid>
+                    <Row>
+                        <Col sm={8} smOffset={2}>
+                            <Stock symbol={symbol} bidPrice={bidPrice} askPrice={askPrice} name={name} onAddTrade={this.handleAddTrade} onSearch={this.handleSearch}/>
+                            <Portfolio totalCash={totalCash} trades={trades} onSearch={this.handleSearch}/>
+                        </Col>
+                    </Row>
+                </Grid>
             </div>
 
         )

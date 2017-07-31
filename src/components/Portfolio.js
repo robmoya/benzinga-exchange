@@ -11,8 +11,8 @@ class Portfolio extends Component {
 
         return(
             <div>
-                <h2>Current Portfolio</h2>
-                <h3>Cash: $<strong>{totalCash}</strong></h3>
+                <hr/>
+                <h2>Your Portfolio <small className="pull-right h4">Cash: $<strong >{totalCash}</strong></small></h2>
                 <TradeList trades={trades} onSearch={this.handleSearch.bind(this)}/>
             </div>
         )
