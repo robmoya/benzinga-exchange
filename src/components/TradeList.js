@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import Trade from './Trade';
+import {ListGroup,Col,Row, ListGroupItem} from 'react-bootstrap';
 
 class TradeList extends Component {
     handleSearch(search){
@@ -16,19 +17,18 @@ class TradeList extends Component {
         }
 
         return(
-            <div>
-                <table>
-                    <tbody>
-                        <tr>
-                            <th>Company</th>
-                            <th>Quantity</th>
-                            <th>Price Paid</th>
-                            <th></th>
-                        </tr>
-                        {renderTrades()}
-                    </tbody>
-                </table>
-            </div>
+            <ListGroup>
+                <ListGroupItem>
+                    <Row>
+                        <Col xs={3}>Company</Col>
+                        <Col xs={3}>Quantity</Col>
+                        <Col xs={3}>Price Paid</Col>
+                        <Col xs={3}></Col>
+                    </Row>
+                </ListGroupItem>
+                {renderTrades()}
+            </ListGroup>
+
         )
     }
 }

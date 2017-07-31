@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {ListGroupItem,Button, Col, Row} from 'react-bootstrap';
 
 
 class Trade extends Component {
@@ -10,12 +11,17 @@ class Trade extends Component {
     render(){
         let {name,q,ppaid} = this.props;
         return(
-            <tr>
-                <td>{name}</td>
-                <td>{q}</td>
-                <td>{ppaid}</td>
-                <td><button onClick={this.viewStock.bind(this)}>View Stock</button></td>
-            </tr>
+            <ListGroupItem>
+                <Row>
+                    <Col xs={3}>{name}</Col>
+                    <Col xs={3}>{q}</Col>
+                    <Col xs={3}>{ppaid}</Col>
+                    <Col xs={3}>
+                        <Button onClick={this.viewStock.bind(this)}>View Stock</Button>
+                    </Col>
+                </Row>
+            </ListGroupItem>
+
         )
     }
 }

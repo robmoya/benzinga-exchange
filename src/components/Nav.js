@@ -1,16 +1,13 @@
 import React, {Component} from 'react';
-import SymbolForm from './SymbolForm';
+import {Navbar} from 'react-bootstrap';
+
 
 class Nav extends Component {
-    handleSearch(symbol){
-        this.props.onSearch(symbol)
-    }
     render(){
         return(
-            <div>
-                <p>Simple Stock Exchange</p>
-                <SymbolForm onSearch={this.handleSearch.bind(this)}/>
-            </div>
+            <Navbar className="text-center">
+                <h1 className="h2">Simple Stock Exchange</h1>
+            </Navbar>
         )
     }
 }
